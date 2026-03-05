@@ -14,8 +14,8 @@ export const data = new SlashCommandBuilder()
   .addSubcommand((sub) => sub.setName('list').setDescription('List all available agents'))
   .addSubcommand((sub) =>
     sub
-      .setName('new')
-      .setDescription('Create a dedicated channel for an agent')
+      .setName('connect')
+      .setDescription('Connect a Maestro agent to a dedicated Discord channel')
       .addStringOption((opt) =>
         opt
           .setName('agent')
@@ -30,8 +30,8 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 
   if (sub === 'list') {
     await handleList(interaction);
-  } else if (sub === 'new') {
-    await handleNew(interaction);
+  } else if (sub === 'connect') {
+    await handleConnect(interaction);
   } else if (sub === 'disconnect') {
     await handleDisconnect(interaction);
   }
@@ -55,12 +55,12 @@ async function handleList(interaction: ChatInputCommandInteraction): Promise<voi
         .map((a) => `**${a.name}**\n\`${a.id}\`  •  ${a.toolType}  •  \`${a.cwd}\``)
         .join('\n\n')
     )
-    .setFooter({ text: 'Use /agents new <agent-id> to start a conversation' });
+    .setFooter({ text: 'Use /agents connect <agent-id> to create an agent channel' });
 
   await interaction.editReply({ embeds: [embed] });
 }
 
-async function handleNew(interaction: ChatInputCommandInteraction): Promise<void> {
+async function handleConnect(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ ephemeral: true });
 
   const agentInput = interaction.options.getString('agent', true);
@@ -104,13 +104,12 @@ async function handleNew(interaction: ChatInputCommandInteraction): Promise<void
   channelDb.register(channel.id, guild.id, agent.id, agent.name);
 
   await interaction.editReply(
-    `✅ Created <#${channel.id}> for agent **${agent.name}**.\n` +
-      `Type your messages there to chat with the agent.`
+    `✅ Created <#${channel.id}> for agent **${agent.name}**.`
   );
 
   await channel.send(
-    `**${agent.name}** is ready.\n` +
-      `Type any message here and it will be sent to this agent.\n` +
+    `**${agent.name}** is connected.\n` +
+      `Use \`/session new\` to start a session thread, then chat inside that thread.\n` +
       `-# Agent: \`${agent.id}\` • ${agent.toolType} • \`${agent.cwd}\``
   );
 }
