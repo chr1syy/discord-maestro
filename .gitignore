@@ -2,3 +2,5 @@ node_modules/
 dist/
 .env
 *.db
+
+Auto Run Docs/
