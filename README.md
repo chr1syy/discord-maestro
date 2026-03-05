@@ -67,6 +67,7 @@ npm start
 | `/agents list` | Show all available agents |
 | `/agents new <agent-id>` | Create a dedicated channel for an agent |
 | `/agents disconnect` | (Run inside an agent channel) Remove and delete the channel |
+| `/session` | Show session info for the current agent channel |
 
 Once an agent channel is created, type messages in it. Messages are relayed to the agent and the response is posted back. A ⏳ reaction indicates a message is waiting in the queue.
 
@@ -77,6 +78,10 @@ Once an agent channel is created, type messages in it. Messages are relayed to t
 - Manage Channels
 - Add Reactions
 - Read Message History
+
+## Security note
+
+Only invite this bot to private servers you trust. There is currently no security mechanism to restrict access to agent channels.
 
 ## Troubleshooting
 
