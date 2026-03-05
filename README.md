@@ -44,6 +44,8 @@ npm run dev
 | `/agents list` | Show all available agents |
 | `/agents new <agent-id>` | Create a dedicated channel for an agent |
 | `/agents disconnect` | (Run inside an agent channel) Remove and delete the channel |
+| `/session new [name]` | Create a session thread inside an agent channel |
+| `/session list` | List session threads for this agent channel |
 
 Once an agent channel is created, type messages in it — they are relayed to the agent and the response is posted back. Messages are queued per-channel and processed one at a time. A ⏳ reaction indicates a message is waiting in the queue.
 
